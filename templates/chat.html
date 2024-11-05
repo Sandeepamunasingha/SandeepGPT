@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SandeepGPT</title>
+    <style>
+        /* Basic Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: linear-gradient(135deg, 
+    rgb(0, 0, 0),        /* Black */
+    rgb(30, 30, 30),    /* Very Dark Gray */
+    rgb(70, 70, 70),     /* Dark Gray */
+    rgb(110, 110, 110),  /* Medium Dark Gray */
+    rgb(150, 150, 150),  /* Medium Gray */
+    rgb(190, 190, 190),  /* Light Gray */
+    rgb(220, 220, 220),  /* Very Light Gray */
+    rgb(255, 255, 255)   /* White */
+);
+
+            transition: background-color 0.3s ease;
+        }
+
+        .chat-container {
+            width: 100%;
+            max-width: 1500px;
+            height: 90vh;
+            display: flex;
+            flex-direction: column;
+            background-color: #00FFFF;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+            border-radius: 8px;
+            overflow: hidden;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        .title {
+            padding: 15px;
+            background-color: #4682B4;
+            color: black;
+            text-align: center;
+            font-size: 4rem;
+            font-weight: bold;
+        }
+
+        .chat-history {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+            background-color: #E0FFFF;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .message {
+            max-width: 80%;
+            padding: 10px 15px;
+            border-radius: 10px;
+        }
+
+        .message.user {
+            align-self: flex-end;
+            background-color: rgb(63, 94, 251);
+            color: #fff;
+            border-bottom-right-radius: 0;
+        }
+
+        .message.bot {
+            align-self: flex-start;
+            background-color: #000000;
+            color: #FFFAFA;
+            border-bottom-left-radius: 0;
+        }
+
+        .input-container {
+            display: flex;
+            padding: 10px;
+            border-top: 1px solid #ddd;
+            background: linear-gradient(135deg, 
+    rgb(255, 182, 193), /* Light Pink */
+    rgb(255, 224, 102), /* Light Yellow */
+    rgb(153, 255, 204), /* Light Mint Green */
+    rgb(173, 216, 230), /* Light Blue */
+    rgb(255, 228, 196), /* Light Salmon */
+    rgb(240, 230, 140), /* Khaki */
+    rgb(221, 160, 221), /* Plum */
+    rgb(255, 218, 185)  /* Peach */
+);
+
+        }
+
+        input[type="text"] {
+            flex: 1;
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            outline: none;
+        }
+
+        button {
+            padding: 10px 20px;
+            margin-left: 10px;
+            background-color: rgb(63, 94, 251);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: rgb(50, 75, 200);
+        }
+
+        /* Dark Mode Styles */
+        body.dark-mode {
+            background-color: #1e1e1e;
+        }
+
+        .chat-container.dark-mode {
+            background-color: #333;
+            color: #fff;
+        }
+
+        .chat-history.dark-mode {
+            background-color: #444;
+        }
+
+        .message.user.dark-mode {
+            background-color: #007bff;
+        }
+
+        .message.bot.dark-mode {
+            background-color: #222;
+        }
+
+        .input-container.dark-mode {
+            background-color: #555;
+        }
+    </style>
+</head>
+<body>
+    <div class="chat-container" id="chatContainer">
+        <div class="title">SandeepGPT</div>
+        <div class="chat-history" id="chatHistory">
+            {% if bot_response %}
+                <div class="message user"><strong>You:</strong> {{ user_input }}</div>
+                <div class="message bot"><strong>SandeepGPT:</strong> {{ bot_response }}</div>
+            {% endif %}
+        </div>
+        <form method="post" class="input-container">
+            <input type="text" name="user_input" placeholder="Type a message..." required>
+            <button type="submit">Send</button>
+        </form>
+        <button id="themeToggle" style="align-self: center; margin-top: 10px;">Toggle Dark/Light Mode</button>
+    </div>
+
+    <script>
+        const themeToggle = document.getElementById('themeToggle');
+        const chatContainer = document.getElementById('chatContainer');
+        const chatHistory = document.getElementById('chatHistory');
+
+        themeToggle.addEventListener('click', () => {
+            document.body.classList.toggle('dark-mode');
+            chatContainer.classList.toggle('dark-mode');
+            chatHistory.classList.toggle('dark-mode');
+
+            // Change message styles
+            const userMessages = document.querySelectorAll('.message.user');
+            const botMessages = document.querySelectorAll('.message.bot');
+            userMessages.forEach(message => message.classList.toggle('dark-mode'));
+            botMessages.forEach(message => message.classList.toggle('dark-mode'));
+        });
+    </script>
+</body>
+</html>
